@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+	<contextName>CmmsLogging</contextName>
+	
+    <property name="LOG_DIR" value="F://logs" /> 
+    
+	<appender name="trace"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/trace.log</File>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_DIR}/trace.%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<appender name="cmms-service"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/cmms-service.log</File>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_DIR}/cmms-service.%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender> 
+
+	<logger name="com.alibaba.dubbo" level="info" />
+    <logger name="org.apache.ibatis" level="info" />
+    <logger name="org.apache.zookeeper" level="WARN" />
+    
+    <logger name="org.springframework" level="INFO"/>
+    
+    <logger name="java.sql.Connection" level="WARN" />
+    <logger name="java.sql.Statement" level="WARN" />
+    <logger name="java.sql.PreparedStatement" level="WARN" />
+	
+	<logger name="com.midea.cmms.impl">
+		<appender-ref ref="cmms-service" />
+	</logger>
+	
+	<root level="INFO">
+		<appender-ref ref="trace" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

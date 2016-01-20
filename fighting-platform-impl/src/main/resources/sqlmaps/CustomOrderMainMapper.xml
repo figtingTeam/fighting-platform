@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.midea.cmo2o.wx.impl.dao.TOrderMainMapper">
+
+	<resultMap id="OrderResultMap" extends="BaseResultMap"
+		type="com.midea.cmo2o.wx.impl.dto.response.OrderInfoRes">
+		<result column="receiver_name" property="receiverName"
+			jdbcType="VARCHAR" />
+		<result column="receiver_phone" property="receiverMobile"
+			jdbcType="VARCHAR" />
+		<result column="receiver_address" property="receiverAddress"
+			jdbcType="VARCHAR" />
+		<collection property="orderItems"
+			ofType="com.midea.cmo2o.wx.impl.dto.response.OrderItemInfoRes">
+			<id column="short_code" property="shortCode" jdbcType="VARCHAR" />
+			<result column="item_name" property="itemName" jdbcType="VARCHAR" />
+			<result column="item_cnt" property="itemCnt" jdbcType="SMALLINT" />
+			<result column="item_brand" property="productBrand" jdbcType="VARCHAR" />
+			<result column="item_price" property="itemPrice" jdbcType="DECIMAL" />
+		    <result column="product_attribute" property="productAttr" jdbcType="SMALLINT" />	
+		</collection>
+	</resultMap>
+
+	<select id="getOrdersByTicketId" resultMap="OrderResultMap"
+		parameterType="java.lang.String">
+		select
+		tom.order_id,
+		tom.item_amount,
+		tom.discount_amount,
+		tom.adjust_amount,
+		tom.payment_amount,
+		tom.pay_time,
+		tom.order_status,
+		tom.memo,
+		toa.receiver_name,
+		toa.receiver_phone,
+		toa.receiver_address,
+		toi.short_code,
+		toi.item_name,
+		toi.item_cnt,
+		toi.item_price,
+		toi.item_brand,
+		toi.product_attribute
+
+		from t_order_main tom left join t_order_item
+		toi on
+		tom.order_id=toi.order_id
+		left join t_order_addr toa
+		on
+		toi.order_id = toa.order_id
+		where
+		tom.ticket_id =
+		#{ticketId,jdbcType=VARCHAR}
+		order by tom.update_time DESC
+
+	</select>
+
+
+
+</mapper>

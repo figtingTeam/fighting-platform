@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration 
+	PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+		   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="F:/dev/mysql-connector-java-5.1.36.jar" />
+	<context id="context1" targetRuntime="MyBatis3">
+		<property name="autoDelimitKeywords" value="true" />
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/trade" 
+			userId="root" password="0624236midea" /> -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://10.16.69.69:3306/ins_cmo2o_prd" userId="root"
+			password="Midea_2014@TC" />
+		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://newimidea.mysql.rds.aliyuncs.com:3306/trade" 
+			userId="imidea" password="qBEI9kLt" /> -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<javaModelGenerator targetPackage="com.midea.cmo2o.wx.impl.entity"
+			targetProject="cmo2o-wx-impl">
+			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="com.midea.cmo2o.wx.impl.mapper"
+			targetProject="cmo2o-wx-impl">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<javaClientGenerator targetPackage="com.midea.cmo2o.wx.impl.dao"
+			targetProject="cmo2o-wx-impl" type="XMLMAPPER">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		<table schema="cmo2o" tableName="t_order_item"></table>
+	</context>
+</generatorConfiguration>
