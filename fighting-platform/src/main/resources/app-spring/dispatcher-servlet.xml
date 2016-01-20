@@ -1,165 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-    http://www.springframework.org/schema/aop 
-	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
     http://www.springframework.org/schema/context 
     http://www.springframework.org/schema/context/spring-context-3.1.xsd
     http://www.springframework.org/schema/util
     http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:config/app.properties</value>
-				<value>classpath:fighting_config.properties</value>
-				<value>classpath:db.properties</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:config/app.properties</value>
+                <value>classpath:fighting_config.properties</value>
+            </list>
+        </property>
+    </bean>
 
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding">
-			<value>UTF-8</value>
-		</property>
-		<property name="maxUploadSize">
-			<value>-1</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
-		</property>
-		<property name="maxInMemorySize">
-			<value>4096</value>
-		</property>
-	</bean>
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+            <value>-1</value>
+            <!-- 上传文件大小限制为31M，31*1024*1024 -->
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
 
-	<mvc:annotation-driven>  <!-- AnnotationDrivenBeanDefinitionParser -->
-		<mvc:message-converters>   <!-- RequestMappingHandlerAdapter -->
-			<!-- org.springframework.http.converter.XXXConverter -->
-			<ref bean="stringHttpMessageConverter" />
-			<ref bean="fastJsonHttpMessageConverter" />
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+    <mvc:annotation-driven>  <!-- AnnotationDrivenBeanDefinitionParser -->
+        <mvc:message-converters>   <!-- RequestMappingHandlerAdapter -->
+            <!-- org.springframework.http.converter.XXXConverter -->
+            <ref bean="stringHttpMessageConverter"/>
+            <ref bean="fastJsonHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
-	<!-- <mvc:resources location="/html/" mapping="/html/**" /> -->
-		
-	<bean id="stringHttpMessageConverter"
-		class="org.springframework.http.converter.StringHttpMessageConverter">
-		<constructor-arg value="UTF-8" index="0"></constructor-arg>
-		<!-- 避免出现乱码 -->
-		<property name="supportedMediaTypes">
-			<list>
-				<value>text/plain;charset=UTF-8</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="fastJsonHttpMessageConverter"
-		class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-		<property name="supportedMediaTypes">
-			<list>
-				<value>application/json;charset=UTF-8</value>
-				<value>text/html;charset=UTF-8</value><!-- 避免IE出现下载JSON文件的情况 -->
-			</list>
-		</property>
-		<property name="features">
-			<util:list>
-				<!-- <value>WriteMapNullValue</value> -->
-				<value>QuoteFieldNames</value>
-				<value>WriteDateUseDateFormat</value>
-			</util:list>
-		</property>
-	</bean>
+    <!-- <mvc:resources location="/html/" mapping="/html/**" /> -->
 
-	<context:component-scan base-package="com.midea.cmo2o.wx.impl.controller">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Service" />
-	</context:component-scan>
+    <bean id="stringHttpMessageConverter"
+          class="org.springframework.http.converter.StringHttpMessageConverter">
+        <constructor-arg value="UTF-8" index="0"></constructor-arg>
+        <!-- 避免出现乱码 -->
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="fastJsonHttpMessageConverter"
+          class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+                <value>text/html;charset=UTF-8</value>
+                <!-- 避免IE出现下载JSON文件的情况 -->
+            </list>
+        </property>
+        <property name="features">
+            <util:list>
+                <!-- <value>WriteMapNullValue</value> -->
+                <value>QuoteFieldNames</value>
+                <value>WriteDateUseDateFormat</value>
+            </util:list>
+        </property>
+    </bean>
 
-	<!-- 配置拦截器，如验证回话有效，权限 -->
- 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
-			<bean class="com.dongyuan.figting.interceptors.TokenInterceptor">
-				<property name="defaultAvailableTime">
-					<value>${session.defaultAvailableTime}</value>
-				</property>
-				<property name="allowUrls">
-					<list>
-						<!-- 如果请求中包含以下路径，则不进行拦截 -->
-						<value>/authorize</value>
-						<value>/area/list</value>
-						<value>/test/cp/userId</value>
-					</list>
-				</property>
-			</bean>
-		</mvc:interceptor>
-	<!-- 	<mvc:interceptor>
-			<mvc:mapping path="/cp/**" />
-			定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的
-			<bean class="com.midea.cmo2o.wx.impl.interceptors.CpTokenInterceptor">
-				<property name="defaultAvailableTime">
-					<value>${session.defaultAvailableTime}</value>
-				</property>
-				<property name="allowUrls">
-					<list>
-						如果请求中包含以下路径，则不进行拦截
-						<value>/cp/authorize</value>
-					</list>
-				</property>
-			</bean>
-		</mvc:interceptor> -->
-	</mvc:interceptors>
-
-	<!-- <mvc:resources mapping="/WEB-INF/**" location="/WEB-INF/templates/" /> -->
-
-	<!-- <bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean"> 
-		<property name="location" value="classpath:config/freemarker.properties" 
-		/> </bean> -->
-
-	<!-- <bean id="viewResolver"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<property name="exposeRequestAttributes" value="true" />
-		<property name="exposeSessionAttributes" value="true" />
-		<property name="viewClass">
-			<value>org.springframework.web.servlet.view.freemarker.FreeMarkerView
-			</value>
-		</property>
-		<property name="cache">
-			<value>true</value>
-		</property>
-		<property name="suffix">
-			<value>.ftl</value>
-		</property>
-		<property name="contentType">
-			<value>text/html; charset=UTF-8</value>
-		</property>
-	</bean>
-
-
-	<bean id="freemarkerConfig"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath">
-			<value>/WEB-INF/ftl/</value>
-		</property>
-		<property name="freemarkerSettings">
-			<props>
-				<prop key="locale">zh_CN</prop>
-				<prop key="defaultEncoding">UTF-8</prop>
-				<prop key="date_format">yyyy-MM-dd</prop>
-				<prop key="time_format">HH:mm:ss</prop>
-				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
-				<prop key="number_format">0.################</prop>
-			</props>
-		</property>
-	</bean> -->
+    <context:component-scan base-package="com.dongyuan.figting.controller">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
 
 </beans>

@@ -1,106 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-	<bean id="appSpringContext" class="com.dongyuan.figting.core.AppSpringContext"
-		lazy-init="false" />
+    <bean id="appSpringContext" class="com.dongyuan.figting.core.AppSpringContext"
+          lazy-init="false"/>
 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:db.properties</value>
-				<value>classpath:fighting_config.properties</value>
-				<value>classpath:config/app.properties</value>
-			</list>
-		</property>
-	</bean>
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+                <value>classpath:fighting_config.properties</value>
+                <value>classpath:config/app.properties</value>
+            </list>
+        </property>
+    </bean>
 
-	<context:annotation-config />
+    <context:annotation-config/>
 
-	<context:component-scan base-package="com.dongyuan.figting.wx.impl" />
+    <context:component-scan base-package="com.dongyuan.figting"/>
 
-	<bean id="evn" class="com.dongyuan.figting.common.Env"
-		init-method="init">
-		<property name="ownSign" value="${evn.ownSign}" />
-	</bean>
+    <bean id="evn" class="com.dongyuan.figting.common.Env"
+          init-method="init">
+        <property name="ownSign" value="${evn.ownSign}"/>
+    </bean>
 
-	<!-- 开启AOP监听 只对当前配置文件有效 -->
-	<aop:aspectj-autoproxy proxy-target-class="true"
-		expose-proxy="true" />
+    <!-- 开启AOP监听 只对当前配置文件有效 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
 
-	<!-- 开启注解事务 只对当前配置文件有效 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+    <!-- 开启注解事务 只对当前配置文件有效 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="groupDataSource" />
-	</bean>
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="groupDataSource"/>
+    </bean>
 
-	<bean id="coreJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-		p:dataSource-ref="groupDataSource" />
+    <bean id="coreJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="groupDataSource"/>
 
-	<!-- 微信参数配置 -->
-	<bean id="wxMpConfigStorage" class="me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage">
-		<property name="appId" value="${mp.appId}" />
-		<property name="secret" value="${mp.secret}" />
-		<property name="token" value="${mp.token}" />
-		<property name="aesKey" value="${mp.aesKey}" />
-	</bean>
-	<!-- 微信统一服务接口 -->
-	<bean id="wxMpService" class="me.chanjar.weixin.mp.api.WxMpServiceImpl">
-		<property name="wxMpConfigStorage" ref="wxMpConfigStorage" />
-	</bean>
-
-	<!-- 微信企业号参数配置 -->
-	<bean id="wxCpConfigStorage" class="me.chanjar.weixin.cp.api.WxCpInMemoryConfigStorage">
-		<property name="corpId" value="${ls.cp.corpID}" />
-		<property name="corpSecret" value="${ls.cp.secret}" />
-		<property name="agentId" value="${ls.cp.agentId}" />
-
-	</bean>
-	<!-- 微信企业号回调信息。批量任务完成后，通过callback推送事件给企业 -->
-	<!-- <bean id="wxCpBathCallback" class="me.chanjar.weixin.cp.bean.WxCpBathCallback"> 
-		<property name="url" value="${ls.cp.callbackUrl}"/> <property name="token" 
-		value="${ls.cp.tokene}"/> <property name="encodingaeskey" value="${ls.cp.encodingAESKey}"/> 
-		</bean> -->
-	<!-- 微信企业号服务接口 -->
-	<bean id="wxCpService" class="me.chanjar.weixin.cp.api.WxCpServiceImpl">
-		<property name="wxCpConfigStorage" ref="wxCpConfigStorage" />
-		<!-- <property name="wxCpBathCallback" ref="wxCpBathCallback"></property> -->
-	</bean>
-
-	<!-- <bean id="defaultMQProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" 
-		scope="singleton"> <constructor-arg index="0"> <value>${rocketmq.producerGroupName}</value> 
-		</constructor-arg> <property name="namesrvAddr" value="${rocketmq.namesrvAddr}" 
-		/> <property name="instanceName" value="${rocketmq.instanceProducerName}" 
-		/> </bean> <bean id="defaultMQPushConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" 
-		scope="singleton"> <constructor-arg index="0"> <value>${rocketmq.consumerGroupName}</value> 
-		</constructor-arg> <property name="namesrvAddr" value="${rocketmq.namesrvAddr}" 
-		/> <property name="instanceName" value="${rocketmq.instanceConsumberName}" 
-		/> </bean> -->
-
-	<!-- <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> 
-		<property name="templateLoaderPath" value="classpath:templates" /> 指定模板文件目录 
-		<property name="freemarkerSettings"> 设置FreeMarker环境属性 <props> <prop key="template_update_delay">1800</prop> 
-		刷新模板的周期，单位为秒 <prop key="default_encoding">UTF-8</prop> 模板的编码格式 <prop key="locale">zh_CN</prop> 
-		本地化设置 </props> </property> </bean> -->
-
-	<import
-		resource="classpath:app-spring/applicationContext-cmo2o-wx-datasource.xml" />
-	<import resource="classpath:app-spring/applicationContext-cmo2o-wx-dao.xml" />
-	<import resource="classpath:app-spring/applicationContext-hessianClient.xml" />
-	<import resource="classpath:config/redis_config.xml" />
-	<import resource="classpath:app-spring/applicationContext-dubbo.xml" />
-	<!-- <import resource="classpath:config/es-beans.xml" /> -->
+    <import resource="classpath:app-spring/applicationContext-fighting-datasource.xml"/>
+    <import resource="classpath:app-spring/applicationContext-fighting-dao.xml"/>
 </beans>
