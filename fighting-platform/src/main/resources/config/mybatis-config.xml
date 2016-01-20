@@ -14,7 +14,7 @@
 		<setting name="defaultStatementTimeout" value="25000" />
 	</settings>
 	<plugins>
-		<plugin interceptor="com.dongyuan.figting.impl.core.pagehelper.PageHelper">
+		<plugin interceptor="com.dongyuan.figting.core.pagehelper.PageHelper">
 			<property name="dialect" value="mysql" />
 		</plugin>
 	</plugins>

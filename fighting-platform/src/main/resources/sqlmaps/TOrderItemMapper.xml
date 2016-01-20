@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dongyuan.figting.impl.dao.TOrderItemMapper" >
-  <resultMap id="BaseResultMap" type="com.dongyuan.figting.impl.entity.TOrderItem" >
+<mapper namespace="com.dongyuan.figting.dao.TOrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.dongyuan.figting.entity.TOrderItem" >
     <id column="order_item_id" property="orderItemId" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="activity_id" property="activityId" jdbcType="BIGINT" />
@@ -91,7 +91,7 @@
     trade_from, packing_way, product_attribute, item_brand, item_category, spec_code, 
     create_time, update_time, cancel_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dongyuan.figting.impl.entity.TOrderItemExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dongyuan.figting.entity.TOrderItemExample" >
     select
     <if test="distinct" >
       distinct
@@ -115,13 +115,13 @@
     delete from t_order_item
     where order_item_id = #{orderItemId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.dongyuan.figting.impl.entity.TOrderItemExample" >
+  <delete id="deleteByExample" parameterType="com.dongyuan.figting.entity.TOrderItemExample" >
     delete from t_order_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.dongyuan.figting.impl.entity.TOrderItem" >
+  <insert id="insert" parameterType="com.dongyuan.figting.entity.TOrderItem" >
     insert into t_order_item (order_item_id, order_id, activity_id, 
       item_id, short_code, item_name, 
       item_cnt, item_price, item_amount, 
@@ -141,7 +141,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.dongyuan.figting.impl.entity.TOrderItem" >
+  <insert id="insertSelective" parameterType="com.dongyuan.figting.entity.TOrderItem" >
     insert into t_order_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="orderItemId != null" >
@@ -292,7 +292,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.dongyuan.figting.impl.entity.TOrderItemExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.dongyuan.figting.entity.TOrderItemExample" resultType="java.lang.Integer" >
     select count(*) from t_order_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -408,7 +408,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dongyuan.figting.impl.entity.TOrderItem" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.dongyuan.figting.entity.TOrderItem" >
     update t_order_item
     <set >
       <if test="orderId != null" >
@@ -483,7 +483,7 @@
     </set>
     where order_item_id = #{orderItemId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.dongyuan.figting.impl.entity.TOrderItem" >
+  <update id="updateByPrimaryKey" parameterType="com.dongyuan.figting.entity.TOrderItem" >
     update t_order_item
     set order_id = #{orderId,jdbcType=VARCHAR},
       activity_id = #{activityId,jdbcType=BIGINT},

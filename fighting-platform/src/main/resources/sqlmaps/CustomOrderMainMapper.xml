@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.dongyuan.figting.impl.dao.TOrderMainMapper">
+<mapper namespace="com.dongyuan.figting.dao.TOrderMainMapper">
 
 	<resultMap id="OrderResultMap" extends="BaseResultMap"
-		type="com.dongyuan.figting.impl.dto.response.OrderInfoRes">
+		type="com.dongyuan.figting.dto.response.OrderInfoRes">
 		<result column="receiver_name" property="receiverName"
 			jdbcType="VARCHAR" />
 		<result column="receiver_phone" property="receiverMobile"
@@ -11,7 +11,7 @@
 		<result column="receiver_address" property="receiverAddress"
 			jdbcType="VARCHAR" />
 		<collection property="orderItems"
-			ofType="com.dongyuan.figting.impl.dto.response.OrderItemInfoRes">
+			ofType="com.dongyuan.figting.dto.response.OrderItemInfoRes">
 			<id column="short_code" property="shortCode" jdbcType="VARCHAR" />
 			<result column="item_name" property="itemName" jdbcType="VARCHAR" />
 			<result column="item_cnt" property="itemCnt" jdbcType="SMALLINT" />

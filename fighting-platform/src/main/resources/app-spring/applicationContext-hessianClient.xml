@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-	<bean id="smsServiceClient" class="com.dongyuan.figting.impl.utils.hessian.TCHessianProxyFactoryBean">
+	<bean id="smsServiceClient" class="com.dongyuan.figting.utils.hessian.TCHessianProxyFactoryBean">
 		<property name="serviceUrl">
 			<value>${sms.hessian.server.url}</value>
 		</property>
