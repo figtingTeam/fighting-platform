@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-	<bean id="appSpringContext" class="com.midea.cmo2o.wx.impl.core.AppSpringContext"
+	<bean id="appSpringContext" class="com.dongyuan.figting.impl.core.AppSpringContext"
 		lazy-init="false" />
 
 	<bean id="propertyConfigurer"
@@ -30,7 +30,7 @@
 
 	<context:component-scan base-package="com.midea.cmo2o.wx.impl" />
 
-	<bean id="evn" class="com.midea.cmo2o.wx.impl.common.Env"
+	<bean id="evn" class="com.dongyuan.figting.impl.common.Env"
 		init-method="init">
 		<property name="ownSign" value="${evn.ownSign}" />
 	</bean>

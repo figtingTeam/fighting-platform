@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.midea.cmo2o.wx.impl.dao.MAreaMapper" >
-  <resultMap id="BaseResultMap" type="com.midea.cmo2o.wx.impl.entity.MArea" >
+<mapper namespace="com.dongyuan.figting.impl.dao.MAreaMapper" >
+  <resultMap id="BaseResultMap" type="com.dongyuan.figting.impl.entity.MArea" >
     <id column="area_code" property="areaCode" jdbcType="INTEGER" />
     <result column="area_name" property="areaName" jdbcType="VARCHAR" />
     <result column="area_type" property="areaType" jdbcType="TINYINT" />
@@ -69,7 +69,7 @@
   <sql id="Base_Column_List" >
     area_code, area_name, area_type, parent_code, create_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.midea.cmo2o.wx.impl.entity.MAreaExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dongyuan.figting.impl.entity.MAreaExample" >
     select
     <if test="distinct" >
       distinct
@@ -93,19 +93,19 @@
     delete from m_area
     where area_code = #{areaCode,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.midea.cmo2o.wx.impl.entity.MAreaExample" >
+  <delete id="deleteByExample" parameterType="com.dongyuan.figting.impl.entity.MAreaExample" >
     delete from m_area
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.midea.cmo2o.wx.impl.entity.MArea" >
+  <insert id="insert" parameterType="com.dongyuan.figting.impl.entity.MArea" >
     insert into m_area (area_code, area_name, area_type, 
       parent_code, create_time)
     values (#{areaCode,jdbcType=INTEGER}, #{areaName,jdbcType=VARCHAR}, #{areaType,jdbcType=TINYINT}, 
       #{parentCode,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.midea.cmo2o.wx.impl.entity.MArea" >
+  <insert id="insertSelective" parameterType="com.dongyuan.figting.impl.entity.MArea" >
     insert into m_area
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="areaCode != null" >
@@ -142,7 +142,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.midea.cmo2o.wx.impl.entity.MAreaExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.dongyuan.figting.impl.entity.MAreaExample" resultType="java.lang.Integer" >
     select count(*) from m_area
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -182,7 +182,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.midea.cmo2o.wx.impl.entity.MArea" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.dongyuan.figting.impl.entity.MArea" >
     update m_area
     <set >
       <if test="areaName != null" >
@@ -200,7 +200,7 @@
     </set>
     where area_code = #{areaCode,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.midea.cmo2o.wx.impl.entity.MArea" >
+  <update id="updateByPrimaryKey" parameterType="com.dongyuan.figting.impl.entity.MArea" >
     update m_area
     set area_name = #{areaName,jdbcType=VARCHAR},
       area_type = #{areaType,jdbcType=TINYINT},

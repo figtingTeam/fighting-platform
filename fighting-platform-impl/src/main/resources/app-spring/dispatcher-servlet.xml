@@ -88,7 +88,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
-			<bean class="com.midea.cmo2o.wx.impl.interceptors.TokenInterceptor">
+			<bean class="com.dongyuan.figting.impl.interceptors.TokenInterceptor">
 				<property name="defaultAvailableTime">
 					<value>${session.defaultAvailableTime}</value>
 				</property>
