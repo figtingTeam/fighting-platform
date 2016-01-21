@@ -210,6 +210,7 @@
     </dependencies>
 
     <build>
+    	<!-- 分环境打包配置 -->
         <finalName>fighting-platform</finalName>
         <resources>
             <resource>
