@@ -40,18 +40,26 @@ public class UserServiceImpl implements UserService {
 	private final static String smsTemplateId = "1";
 
 	@Override
-	public String register(UserRegisterReq userRegisterReq) {
+	public String register(UserRegisterReq userRegisterReq, HttpServletRequest req) {
+		String captcha = (String) req.getSession().getAttribute(getSessionKey(userRegisterReq.getMobile()));
+		if (StringUtil.isBlank(captcha)) {
+			LOGGER.info("验证码{}过期.", userRegisterReq.getCaptcha());
+			return UserApiCode.CAPTCHA_EXPIRE;
+		}
+		if (!captcha.equals(userRegisterReq.getCaptcha())) {
+			LOGGER.info("验证码{}错误.", userRegisterReq.getCaptcha());
+			return UserApiCode.CAPTCHA_ERROR;
+		}
 		FUser fUser = new FUser();
 		fUser.setNickname(userRegisterReq.getNickName());
-		fUser.setPhone(userRegisterReq.getPhone());
+		fUser.setPhone(userRegisterReq.getMobile());
 		fUser.setPassword(userRegisterReq.getPassword());
 		fUser.setEnabled(Boolean.TRUE);
 		fUser.setCreatetime(new Date());
 		int i = fUserMapper.insert(fUser);
-		if (i == 1) {
+		if (i == 1)
 			return BaseApiCode.OPERATE_SUCCESS;
-		}
-		return null;
+		return UserApiCode.REGISTER_FAIL;
 	}
 
 	@Override

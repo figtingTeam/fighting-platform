@@ -17,17 +17,20 @@ public class UserRegisterReq extends BaseRequest{
 	private String nickName;
 
 	@NotEmpty(message = "手机号码不能为空")
-	private String phone;
+	private String mobile;
 
 	@NotEmpty(message = "密码不能为空")
 	private String password;
+	
+	@NotEmpty(message = "验证码不能为空")
+	private String captcha;
 
 	public String getNickName() {
 		return nickName;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getMobile() {
+		return mobile;
 	}
 
 	public String getPassword() {
@@ -38,11 +41,19 @@ public class UserRegisterReq extends BaseRequest{
 		this.nickName = nickName;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCaptcha() {
+		return captcha;
+	}
+
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
 	}
 }

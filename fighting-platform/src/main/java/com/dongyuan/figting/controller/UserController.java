@@ -4,7 +4,7 @@ import com.dongyuan.figting.code.BaseApiCode;
 import com.dongyuan.figting.core.excute.ControllerWrapper;
 import com.dongyuan.figting.core.excute.CtrlRespPackUtil;
 import com.dongyuan.figting.dto.BodyData;
-import com.dongyuan.figting.dto.request.SmsCaptchaRequest;
+import com.dongyuan.figting.dto.request.SmsCaptchaReq;
 import com.dongyuan.figting.dto.request.UserRegisterReq;
 import com.dongyuan.figting.service.UserService;
 import com.dongyuan.figting.utils.FastJSONHelper;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 描述： 用户信息控制层
@@ -43,13 +42,14 @@ public class UserController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public
 	@ResponseBody
-	BodyData getAreas(final @RequestBody UserRegisterReq userRegisterReq) {
+	BodyData register(final @RequestBody UserRegisterReq userRegisterReq,
+	                  final HttpServletRequest req) {
 		final BodyData response = BodyData.make();
 		return CtrlRespPackUtil.execInvokeService(userRegisterReq, response, new ControllerWrapper() {
 
 			@Override
 			public String invokeService() {
-				String resuleCode = userService.register(userRegisterReq);
+				String resuleCode = userService.register(userRegisterReq, req);
 				if (BaseApiCode.OPERATE_SUCCESS.equals(resuleCode)) {
 					response.setContent(true);
 					LOGGER.info("注册用户成功，用户信息如下：{}", FastJSONHelper.serialize(userRegisterReq));
@@ -70,8 +70,8 @@ public class UserController {
 	@ResponseBody
 	BodyData
 	smsCaptcha(@RequestParam(value = "mobile", required = true) String mobile,
-	           final HttpServletRequest req, final HttpServletResponse resp) {
-		final SmsCaptchaRequest request = new SmsCaptchaRequest();
+	           final HttpServletRequest req) {
+		final SmsCaptchaReq request = new SmsCaptchaReq();
 		request.setMobile(mobile);
 		final BodyData response = BodyData.make();
 		return CtrlRespPackUtil.execInvokeService(request, response, new ControllerWrapper() {
@@ -92,7 +92,7 @@ public class UserController {
 	public static void main(String[] args) {
 		UserRegisterReq userRegisterReq = new UserRegisterReq();
 		userRegisterReq.setNickName("hhf");
-		userRegisterReq.setPhone("13951657704");
+		userRegisterReq.setMobile("13951657704");
 		userRegisterReq.setPassword("123");
 
 		System.out.println(FastJSONHelper.serialize(userRegisterReq));

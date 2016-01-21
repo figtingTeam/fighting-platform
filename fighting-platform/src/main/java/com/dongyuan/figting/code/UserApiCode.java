@@ -27,6 +27,16 @@ public class UserApiCode extends BaseApiCode {
 	 */
 	public static final String GET_CAPTCHA_FAIL = "1003";
 
+	/**
+	 * 验证码过期
+	 */
+	public static final String CAPTCHA_EXPIRE = "1004";
+
+	/**
+	 * 验证码错误
+	 */
+	public static final String CAPTCHA_ERROR = "1005";
+
 	public static void initResponseCode() {
 		Map<String, String> enMsgMap = BaseApiCode.enMsgMap;
 		Map<String, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -36,5 +46,9 @@ public class UserApiCode extends BaseApiCode {
 		zhMsgMap.put(BLANK_MOBILE, "手机号不能为空");
 		enMsgMap.put(GET_CAPTCHA_FAIL, "user.get_captcha_fail");
 		zhMsgMap.put(GET_CAPTCHA_FAIL, "获取验证码失败");
+		enMsgMap.put(CAPTCHA_EXPIRE, "user.captcha_expire");
+		zhMsgMap.put(CAPTCHA_EXPIRE, "验证码过期");
+		enMsgMap.put(CAPTCHA_ERROR, "user.captcha_error");
+		zhMsgMap.put(CAPTCHA_ERROR, "验证码错误");
 	}
 }

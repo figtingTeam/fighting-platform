@@ -19,7 +19,7 @@ public interface UserService {
 	 * @param userRegisterReq
 	 * @return 错误码
 	 */
-	String register(UserRegisterReq userRegisterReq);
+	String register(UserRegisterReq userRegisterReq, HttpServletRequest req);
 
 	/**
 	 * 发送短信验证码
