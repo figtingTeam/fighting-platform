@@ -1,10 +1,21 @@
 package com.dongyuan.figting.dao;
 
+import com.dongyuan.figting.dao.annotations.IRepository;
 import com.dongyuan.figting.entity.FUser;
 import com.dongyuan.figting.entity.FUserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
+/**
+ * 描述： 用户信息持久层
+ *
+ * @author huanghf
+ * @email 736943550@qq.com
+ * @date 2016年01月21日 10:11
+ * @copyright 美的电子商务有限公司
+ */
+@IRepository
 public interface FUserMapper {
     int countByExample(FUserExample example);
 
