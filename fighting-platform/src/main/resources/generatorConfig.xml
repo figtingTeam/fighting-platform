@@ -16,26 +16,26 @@
 		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/trade" 
 			userId="root" password="0624236midea" /> -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://10.16.69.69:3306/ins_cmo2o_prd" userId="root"
-			password="Midea_2014@TC" />
+			connectionURL="jdbc:mysql://localhost:3306/dongyuan-fighting" userId="root"
+			password="root" />
 		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://newimidea.mysql.rds.aliyuncs.com:3306/trade" 
 			userId="imidea" password="qBEI9kLt" /> -->
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
-		<javaModelGenerator targetPackage="com.midea.cmo2o.wx.impl.entity"
-			targetProject="cmo2o-wx-impl">
+		<javaModelGenerator targetPackage="com.dongyuan.figting.entity"
+			targetProject="fighting-platform">
 			<property name="enableSubPackages" value="false" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
-		<sqlMapGenerator targetPackage="com.midea.cmo2o.wx.impl.mapper"
-			targetProject="cmo2o-wx-impl">
+		<sqlMapGenerator targetPackage="com.dongyuan.figting.mapper"
+			targetProject="fighting-platform">
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
-		<javaClientGenerator targetPackage="com.midea.cmo2o.wx.impl.dao"
-			targetProject="cmo2o-wx-impl" type="XMLMAPPER">
+		<javaClientGenerator targetPackage="com.dongyuan.figting.dao"
+			targetProject="fighting-platform" type="XMLMAPPER">
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
-		<table schema="cmo2o" tableName="t_order_item"></table>
+		<table schema="fighting" tableName="f_user"></table>
 	</context>
 </generatorConfiguration>
