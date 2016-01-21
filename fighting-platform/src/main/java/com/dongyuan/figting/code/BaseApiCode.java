@@ -52,6 +52,7 @@ public class BaseApiCode {
 	
 	
 	static {
+		UserApiCode.initResponseCode();
 		enMsgMap.put(OPERATE_FAIL, "base.operate-fail");
 		zhMsgMap.put(OPERATE_FAIL, "操作失败,建议刷新页面检查数据后再操作");
 		enMsgMap.put(OPERATE_TIMEOUT, "base.operate-timeout");

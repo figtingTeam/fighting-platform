@@ -71,7 +71,7 @@ public class SmsServiceClient {
 	 * @param datas      可选参数 内容数据，用于替换模板中{序号}
 	 * @return
 	 */
-	public HashMap<String, Object> sendTemplateSMS(String to, String templateId, String[] datas) {
+	public boolean sendTemplateSMS(String to, String templateId, String[] datas) {
 		if (StringUtil.isBlank(to) || StringUtil.isBlank(appId) || StringUtil.isBlank(templateId))
 			throw new IllegalArgumentException("必选参数:" + (StringUtil.isBlank(to) ? " 手机号码 " : "") + (StringUtil.isBlank(templateId) ? " 模板Id " : "") + "为空");
 		CcopHttpClient chc = new CcopHttpClient();
@@ -112,91 +112,27 @@ public class SmsServiceClient {
 			EntityUtils.consume(entity);
 		} catch (IOException e) {
 			LOGGER.error("网络错误", e.getMessage());
-			return getMyError("172001", "网络错误");
+			return false;
 		} catch (Exception e) {
 			LOGGER.error("无返回", e.getMessage());
-			return getMyError("172002", "无返回");
+			return false;
 		} finally {
 			if (httpclient != null)
 				httpclient.getConnectionManager().shutdown();
 		}
 		LOGGER.info("sendTemplateSMS response body = {}", result);
 		try {
-			return jsonToMap(result);
-		} catch (Exception e) {
-			return getMyError("172003", "返回包体错误");
-		}
-	}
-
-	private HashMap<String, Object> jsonToMap(String result) {
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
-		JsonParser parser = new JsonParser();
-		JsonObject asJsonObject = parser.parse(result).getAsJsonObject();
-		Set<Entry<String, JsonElement>> entrySet = asJsonObject.entrySet();
-		HashMap<String, Object> hashMap2 = new HashMap<String, Object>();
-
-		for (Map.Entry<String, JsonElement> m : entrySet) {
-			if ("statusCode".equals(m.getKey()) || "statusMsg".equals(m.getKey()))
-				hashMap.put(m.getKey(), m.getValue().getAsString());
-			else {
-				if ("SubAccount".equals(m.getKey()) || "totalCount".equals(m.getKey())
-						|| "token".equals(m.getKey()) || "downUrl".equals(m.getKey())) {
-					if (!"SubAccount".equals(m.getKey()))
-						hashMap2.put(m.getKey(), m.getValue().getAsString());
-					else {
-						try {
-							if ((m.getValue().toString().trim().length() <= 2) && !m.getValue().toString().contains("[")) {
-								hashMap2.put(m.getKey(), m.getValue().getAsString());
-								hashMap.put("data", hashMap2);
-								break;
-							}
-							if (m.getValue().toString().contains("[]")) {
-								hashMap2.put(m.getKey(), new JsonArray());
-								hashMap.put("data", hashMap2);
-								continue;
-							}
-							JsonArray asJsonArray = parser.parse(m.getValue().toString()).getAsJsonArray();
-							ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
-							for (JsonElement j : asJsonArray) {
-								Set<Entry<String, JsonElement>> entrySet2 = j.getAsJsonObject().entrySet();
-								HashMap<String, Object> hashMap3 = new HashMap<String, Object>();
-								for (Map.Entry<String, JsonElement> m2 : entrySet2) {
-									hashMap3.put(m2.getKey(), m2.getValue().getAsString());
-								}
-								arrayList.add(hashMap3);
-							}
-							hashMap2.put("SubAccount", arrayList);
-						} catch (Exception e) {
-							JsonObject asJsonObject2 = parser.parse(m.getValue().toString()).getAsJsonObject();
-							Set<Entry<String, JsonElement>> entrySet2 = asJsonObject2.entrySet();
-							HashMap<String, Object> hashMap3 = new HashMap<String, Object>();
-							for (Map.Entry<String, JsonElement> m2 : entrySet2) {
-								hashMap3.put(m2.getKey(), m2.getValue().getAsString());
-							}
-							hashMap2.put(m.getKey(), hashMap3);
-							hashMap.put("data", hashMap2);
-						}
-
-					}
-					hashMap.put("data", hashMap2);
-				} else {
-
-					JsonObject asJsonObject2 = parser.parse(m.getValue().toString()).getAsJsonObject();
-					Set<Entry<String, JsonElement>> entrySet2 = asJsonObject2.entrySet();
-					HashMap<String, Object> hashMap3 = new HashMap<String, Object>();
-					for (Map.Entry<String, JsonElement> m2 : entrySet2) {
-						hashMap3.put(m2.getKey(), m2.getValue().getAsString());
-					}
-					if (hashMap3.size() != 0) {
-						hashMap2.put(m.getKey(), hashMap3);
-					} else {
-						hashMap2.put(m.getKey(), m.getValue().getAsString());
-					}
-					hashMap.put("data", hashMap2);
-				}
+			JsonParser parser = new JsonParser();
+			JsonObject asJsonObject = parser.parse(result).getAsJsonObject();
+			Set<Entry<String, JsonElement>> entrySet = asJsonObject.entrySet();
+			for (Map.Entry<String, JsonElement> m : entrySet) {
+				if ("statusCode".equals(m.getKey()) || "statusMsg".equals(m.getKey()))
+					return "00000".equals(m.getValue().getAsString());
 			}
+		} catch (Exception e) {
+			return false;
 		}
-		return hashMap;
+		return false;
 	}
 
 	private HttpRequestBase getHttpRequestBase(int get, String action) throws NoSuchAlgorithmException, UnsupportedEncodingException {

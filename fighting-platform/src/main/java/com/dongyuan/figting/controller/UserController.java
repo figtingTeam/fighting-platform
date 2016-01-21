@@ -4,6 +4,7 @@ import com.dongyuan.figting.code.BaseApiCode;
 import com.dongyuan.figting.core.excute.ControllerWrapper;
 import com.dongyuan.figting.core.excute.CtrlRespPackUtil;
 import com.dongyuan.figting.dto.BodyData;
+import com.dongyuan.figting.dto.request.SmsCaptchaRequest;
 import com.dongyuan.figting.dto.request.UserRegisterReq;
 import com.dongyuan.figting.service.UserService;
 import com.dongyuan.figting.utils.FastJSONHelper;
@@ -11,10 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 描述： 用户信息控制层
@@ -40,7 +41,8 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public @ResponseBody
+	public
+	@ResponseBody
 	BodyData getAreas(final @RequestBody UserRegisterReq userRegisterReq) {
 		final BodyData response = BodyData.make();
 		return CtrlRespPackUtil.execInvokeService(userRegisterReq, response, new ControllerWrapper() {
@@ -56,6 +58,33 @@ public class UserController {
 				response.setContent(false);
 				LOGGER.info("注册用户失败，失败原因如下：{}", BaseApiCode.getZhMsg(resuleCode));
 				return resuleCode;
+			}
+		});
+	}
+
+	/**
+	 * 获取短信验证码
+	 */
+	@RequestMapping(value = "/smsCaptcha", method = RequestMethod.GET)
+	public
+	@ResponseBody
+	BodyData
+	smsCaptcha(@RequestParam(value = "mobile", required = true) String mobile,
+	           final HttpServletRequest req, final HttpServletResponse resp) {
+		final SmsCaptchaRequest request = new SmsCaptchaRequest();
+		request.setMobile(mobile);
+		final BodyData response = BodyData.make();
+		return CtrlRespPackUtil.execInvokeService(request, response, new ControllerWrapper() {
+
+			@Override
+			public String invokeService() {
+				String resultCode = userService.sendCaptcha(request.getMobile(), req);
+				if (BaseApiCode.OPERATE_SUCCESS.equals(resultCode)) {
+					response.setContent(true);
+				} else {
+					response.setContent(false);
+				}
+				return resultCode;
 			}
 		});
 	}
