@@ -1,19 +1,13 @@
 package com.dongyuan.figting.controller;
 
-import java.util.List;
-
 import com.dongyuan.figting.Constants;
+import com.dongyuan.figting.code.BaseApiCode;
 import com.dongyuan.figting.core.excute.ControllerWrapper;
 import com.dongyuan.figting.core.excute.CtrlRespPackUtil;
 import com.dongyuan.figting.dto.BodyData;
 import com.dongyuan.figting.dto.request.AreaSearchRequest;
-import com.dongyuan.figting.code.BaseApiCode;
-import com.dongyuan.figting.dto.response.AreaRes;
-import com.dongyuan.figting.utils.FastJSONHelper;
-import com.dongyuan.figting.service.IAreaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,8 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AreaController {
 	private static Logger LOGGER = LoggerFactory.getLogger(AreaController.class);
 
-	@Autowired
-	private IAreaService areaService;
+	/*@Autowired
+	private IAreaService areaService;*/
 
 	/**
 	 * 根据父编码获取地区信息
@@ -52,10 +46,10 @@ public class AreaController {
 
 			@Override
 			public String invokeService() {
-				List<AreaRes> areas = areaService.getAreas(request.getParentCode());
-				response.setContent(areas);
+				/*List<AreaRes> areas = areaService.getAreas(request.getParentCode());
+				response.setContent(areas);            
 				LOGGER.info("根据parentCode：{}获取到的地区信息如下：{}", request.getParentCode(),
-						FastJSONHelper.serialize(areas));
+						FastJSONHelper.serialize(areas));  */
 				return BaseApiCode.OPERATE_SUCCESS;
 			}
 		});
