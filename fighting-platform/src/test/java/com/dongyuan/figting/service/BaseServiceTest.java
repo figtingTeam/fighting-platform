@@ -29,6 +29,7 @@ public class BaseServiceTest {
 
 	static {
 		// 禁用远程调用组件
+		//test push....
 	}
 
 	@Autowired
