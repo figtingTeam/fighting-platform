@@ -2,7 +2,6 @@ package com.dongyuan.figting.core.excute;
 
 import java.io.IOException;
 
-import org.apache.http.client.ClientProtocolException;
 
 /**
  * 服务处理方法代码
