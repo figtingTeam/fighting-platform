@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="fighting-platform:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="fighting-platform.war">
-      <element id="artifact" artifact-name="fighting-platform:war exploded" />
-    </root>
-  </artifact>
-</component>
