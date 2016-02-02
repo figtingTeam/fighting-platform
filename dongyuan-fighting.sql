@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50539
 File Encoding         : 65001
 
-Date: 2016-01-31 15:10:32
+Date: 2016-02-02 08:56:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,9 +21,10 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `ad`;
 CREATE TABLE `ad` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
+  `type` int(4) NOT NULL COMMENT '标识广告的类型',
+  `location` int(64) NOT NULL COMMENT '方位，这个后期自定义，用字符串如“left"更直观，就不用数字表示了',
+  `path` varchar(255) DEFAULT NULL,
   `uri` varchar(256) NOT NULL COMMENT '文件uri地址',
-  `location` varchar(64) NOT NULL COMMENT '方位，这个后期自定义，用字符串如“left"更直观，就不用数字表示了',
-  `type` tinyint(4) NOT NULL COMMENT '标识广告的类型',
   `enabled` bit(1) DEFAULT b'1' COMMENT '状态(0无效，1有效)',
   `create_by` varchar(32) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
